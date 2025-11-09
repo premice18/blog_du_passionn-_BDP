@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - BDP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #00A2FF 0%, #FF6B35 100%);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'electric-blue': '#00A2FF',
+                        'electric-blue-dark': '#0088D1',
+                        'electric-blue-light': '#4DC1FF',
+                        'passion-orange': '#FF6B35',
+                        'passion-orange-dark': '#E05A2B',
+                        'passion-orange-light': '#FF8C5A',
+                        'text-primary': '#1A1A1A',
+                        'text-secondary': '#666666',
+                        'text-tertiary': '#999999',
+                        'bg-light': '#F5F5F5',
+                        'border-light': '#E5E5E5',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <div class="max-w-md w-full mx-4">
+        <!-- Logo BDP -->
+        <div class="text-center mb-8">
+            <div
+                class="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full text-white font-bold text-2xl mb-2">
+                BDP
+            </div>
+
+            <h1 class="text-3xl font-bold text-gray-900">Espace Admin</h1>
+            <p class="text-gray-600 mt-2">Gestion du contenu BDP</p>
+        </div>
+
+        <!-- Carte principale -->
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <div class="space-y-6">
+                <!-- Bouton Connexion -->
+                <a href="/admin/signin"
+                    class="w-full bg-electric-blue hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg flex items-center justify-center space-x-2">
+                    <span>🔐</span>
+                    <span>Se connecter</span>
+                </a>
+
+                <!-- Séparateur -->
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">ou</span>
+                    </div>
+                </div>
+
+                <!-- Bouton Créer compte -->
+                <a href="/admin/register"
+                    class="w-full bg-passion-orange hover:bg-orange-600 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg flex items-center justify-center space-x-2">
+                    <span>👑</span>
+                    <span>Créer un compte Admin</span>
+                </a>
+            </div>
+
+            <!-- Message info -->
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <p class="text-sm text-blue-800 text-center">
+                    ⚠️ Cet espace est réservé aux administrateurs du site BDP
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
