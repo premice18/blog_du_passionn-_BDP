@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title || "BDP"}}</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Configuration Tailwind personnalisée -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'electric-blue': '#00A2FF',
+                        'electric-blue-dark': '#0088D1',
+                        'electric-blue-light': '#4DC1FF',
+                        'passion-orange': '#FF6B35',
+                        'passion-orange-dark': '#E05A2B',
+                        'passion-orange-light': '#FF8C5A',
+                        'text-primary': '#1A1A1A',
+                        'text-secondary': '#666666',
+                        'text-tertiary': '#999999',
+                        'bg-light': '#F5F5F5',
+                        'border-light': '#E5E5E5',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Styles personnalisés pour les éléments spéciaux */
+        .gradient-text {
+            background: linear-gradient(135deg, #00A2FF 0%, #FF6B35 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-spark {
+            filter: drop-shadow(0 2px 4px rgba(255, 107, 53, 0.3));
+        }
+    </style>
+</head>
+
+<body class="font-body bg-white text-text-primary antialiased">
+    <!-- Header -->
+    <header class="fixed top-0 w-full bg-white shadow-sm z-50 py-4">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="flex items-center space-x-2 no-underline">
+                    <div class="relative">
+                        <div
+                            class="w-10 h-10 bg-electric-blue rounded-full flex items-center justify-center text-white font-heading font-bold text-lg">
+                            BDP
+                        </div>
+                        <div class="absolute -bottom-1 -right-1 text-passion-orange logo-spark animate-float">
+                            ⚡
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-heading font-bold text-lg text-text-primary">BDP</span>
+                        <span class="font-body text-xs text-passion-orange -mt-1">Blog du Passionné</span>
+                    </div>
+                </a>
+
+                <!-- Navigation Desktop -->
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#"
+                        class="font-medium text-text-primary hover:text-electric-blue transition-colors duration-200 relative ">
+                        Accueil
+                        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-electric-blue"></div>
+
+                    </a>
+                    <a href="#"
+                        class="font-medium text-text-primary hover:text-electric-blue transition-colors duration-200 relative ">
+                        Actu
+                        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-electric-blue"></div>
+                    </a>
+                    <a href="#"
+                        class="font-medium text-text-primary hover:text-electric-blue transition-colors duration-200 relative ">
+                        Tutoriels
+                        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-electric-blue"></div>
+                    </a>
+                    <a href="#"
+                        class="font-medium text-text-primary hover:text-electric-blue transition-colors duration-200 relative ">
+                        Outils
+                        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-electric-blue"></div>
+                    </a>
+                    <a href="#"
+                        class="font-medium text-text-primary hover:text-electric-blue transition-colors duration-200 relative ">
+                        Inspiration
+                        <div class="absolute bottom-0 left-0 w-full h-0.5 bg-electric-blue"></div>
+                    </a>
+                </nav>
+
+                <!-- Bouton Newsletter -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#"
+                        class="bg-passion-orange hover:bg-passion-orange-dark text-white px-6 py-2 rounded-lg font-semibold transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg flex items-center space-x-2">
+                        <span>📧</span>
+                        <span>S'abonner</span>
+                    </a>
+                </div>
+
+                <!-- Menu Mobile -->
+                <button class="md:hidden text-text-primary text-xl" onclick="toggleMobileMenu()">
+                    ☰
+                </button>
+            </div>
+
+            <!-- Navigation Mobile -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-4 border-t border-border-light pt-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="#"
+                        class="font-medium text-text-primary hover:text-electric-blue transition-colors duration-200 py-2">
+                        Accueil
+                    </a>
+                    <a href="#"
+                        class="font-medium text-text-primary hover:text-electric-blue transition-colors duration-200 py-2">
+                        Actu
+                    </a>
+                    <a href="#"
+                        class="font-medium text-text-primary hover:text-electric-blue transition-colors duration-200 py-2">
+                        Tutoriels
+                    </a>
+                    <a href="#"
+                        class="font-medium text-text-primary hover:text-electric-blue transition-colors duration-200 py-2">
+                        Outils
+                    </a>
+                    <a href="#"
+                        class="font-medium text-text-primary hover:text-electric-blue transition-colors duration-200 py-2">
+                        Inspiration
+                    </a>
+                    <a href="#"
+                        class="bg-passion-orange hover:bg-passion-orange-dark text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 text-center flex items-center justify-center space-x-2">
+                        <span>📧</span>
+                        <span>S'abonner à la newsletter</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="min-h-screen pt-20">
+        {{{ await $slots.main() }}}
+    </main>
+
+    <!-- Newsletter Section -->
+    <section class="bg-passion-orange text-white py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="font-heading font-bold text-3xl md:text-4xl mb-4">
+                Reste branché ! 🚀
+            </h2>
+            <p class="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+                Rejoins les passionnés de tech qui reçoivent chaque semaine les actus, tutoriels et bons plans
+                directement dans leur boîte mail.
+            </p>
+
+            <form action="#" method="POST" class="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
+                {{ csrfField() }}
+                <input type="email" name="email" placeholder="ton@email.com" required
+                    class="flex-1 px-4 py-3 rounded-lg text-text-primary focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+                <button type="submit"
+                    class="bg-white text-passion-orange px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-200 transform hover:-translate-y-0.5">
+                    Je m'abonne !
+                </button>
+            </form>
+
+            <p class="text-sm opacity-75 mt-4">
+                Zero spam, que du contenu qui déchire ! Promis 🤞
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-text-primary text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <!-- Logo et description -->
+                <div class="md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="relative">
+                            <div
+                                class="w-8 h-8 bg-electric-blue rounded-full flex items-center justify-center text-white font-heading font-bold text-sm">
+                                BDP
+                            </div>
+                            <div class="absolute -bottom-1 -right-1 text-passion-orange text-xs">
+                                ⚡
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-heading font-bold text-lg">BDP</span>
+                            <span class="font-body text-xs text-passion-orange -mt-1">Blog du Passionné</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-4 max-w-md">
+                        Le blog où la tech arrête de faire sa mystérieuse ! On décode, on teste, on partage.
+                        Objectif : te donner l'info et l'étincelle pour lancer tes projets.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="text-gray-300 hover:text-passion-orange transition-colors duration-200 text-xl">
+                            🐦
+                        </a>
+                        <a href="#"
+                            class="text-gray-300 hover:text-passion-orange transition-colors duration-200 text-xl">
+                            💼
+                        </a>
+                        <a href="#"
+                            class="text-gray-300 hover:text-passion-orange transition-colors duration-200 text-xl">
+                            📷
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Liens rapides -->
+                <div>
+                    <h3 class="font-heading font-semibold text-lg mb-4">Navigation</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-passion-orange transition-colors duration-200">Accueil</a>
+                        </li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-passion-orange transition-colors duration-200">Dernières
+                                actus</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-passion-orange transition-colors duration-200">Tutoriels</a>
+                        </li>
+                        <li><a href="#" class="text-gray-300 hover:text-passion-orange transition-colors duration-200">À
+                                propos</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-passion-orange transition-colors duration-200">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Catégories -->
+                <div>
+                    <h3 class="font-heading font-semibold text-lg mb-4">Catégories</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-passion-orange transition-colors duration-200">🤖 IA &
+                                Machine Learning</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-passion-orange transition-colors duration-200">💻
+                                Développement Web</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-passion-orange transition-colors duration-200">📱
+                                Mobile</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-passion-orange transition-colors duration-200">🛠️
+                                Outils & DevOps</a></li>
+                        <li><a href="#"
+                                class="text-gray-300 hover:text-passion-orange transition-colors duration-200">🚀
+                                Startups & Entrepreneurship</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p class="text-gray-400">
+                    Fait avec ❤️ et beaucoup de ☕ par des passionnés •
+                    <span class="text-passion-orange">BDP © 2025</span>
+                </p>
+                <p class="text-gray-500 text-sm mt-2">
+                    La tech sans se prendre la tête, mais avec passion !
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Fermer le menu mobile en cliquant à l'extérieur
+        document.addEventListener('click', function (event) {
+            const menu = document.getElementById('mobileMenu');
+            const button = document.querySelector('[onclick="toggleMobileMenu()"]');
+
+            if (!menu.contains(event.target) && !button.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
+
+    @section('scripts')
+</body>
+
+</html>
