@@ -42,7 +42,7 @@ export default class AdminController {
   }
   public async dashboard({ view, auth }: HttpContext) {
     const user = auth.use('web').user
-    const articles = await Article.all()
+    const articles = await Article.query().preload('medias').orderBy('created_at', 'desc')
     return view.render('pages/admin/dashboard', { user, articles })
   }
   public async logout({ auth, response }: HttpContext) {

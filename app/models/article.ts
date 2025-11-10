@@ -1,7 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import type { HasMany, BelongsTo } from '@adonisjs/lucid/types/relations'
 import Media from './media.js'
-import * as relations from '@adonisjs/lucid/types/relations'
+import { BaseModel, column, hasMany, belongsTo } from '@adonisjs/lucid/orm'
+
+import User from './user.js'
 
 export default class Article extends BaseModel {
   @column({ isPrimary: true })
@@ -34,8 +36,9 @@ export default class Article extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @hasMany(() => Media, {
-    foreignKey: 'articleId',
-  })
-  declare media: relations.HasMany<typeof Media>
+  @hasMany(() => Media)
+  declare medias: HasMany<typeof Media>
+
+  @belongsTo(() => User)
+  declare user: BelongsTo<typeof User>
 }

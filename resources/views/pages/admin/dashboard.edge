@@ -166,15 +166,20 @@
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
                                     <div
-                                        class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500 text-sm font-bold mr-4">
-                                        {{ article.categoryEmoji }}
+                                        class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 text-sm font-bold mr-4 overflow-hidden">
+                                        @if(article.medias && article.medias.length > 0 && article.medias[0].filePath)
+                                        <img src="/{{ article.medias[0].filePath }}" alt="Article image"
+                                            class="h-full w-full object-cover">
+                                        @else
+                                        <span>📄</span>
+                                        @end
                                     </div>
                                     <div>
                                         <div class="text-sm font-medium text-gray-900">
                                             {{ article.title }}
                                         </div>
                                         <div class="text-sm text-gray-500 line-clamp-1">
-                                            {{ article.subtitle }}
+                                            {{ article.resume }}
                                         </div>
                                     </div>
                                 </div>
@@ -205,7 +210,7 @@
 
                             <!-- Date -->
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ article.created_at }}
+                                {{ article.createdAt.toRelative() }}
                             </td>
 
                             <!-- Actions -->
