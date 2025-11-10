@@ -62,8 +62,8 @@
 
                 <!-- Menu utilisateur -->
                 <div class="flex items-center space-x-4">
-                    <span class="text-sm text-gray-600">Connecté en tant que <strong>{{ auth.user.name
-                            }}</strong></span>
+                    <span class="text-sm text-gray-600">{{ user.fullName }}</span>
+
                     <a href="/admin/logout"
                         class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
                         🚪 Déconnexion
@@ -76,7 +76,7 @@
     <!-- Main Content -->
     <main class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div class="bg-white rounded-2xl shadow-xl p-8">
-            <form action="/admin/articles" method="POST" enctype="multipart/form-data" class="space-y-8">
+            <form action="/admin/create/articles" method="POST" enctype="multipart/form-data" class="space-y-8">
                 {{ csrfField() }}
 
                 <!-- Titre -->
@@ -92,9 +92,9 @@
                 <!-- Sous-titre -->
                 <div>
                     <label for="subtitle" class="block text-lg font-semibold text-gray-900 mb-3">
-                        💬 Sous-titre *
+                        💬 Petit résumé *
                     </label>
-                    <textarea id="subtitle" name="subtitle" required rows="3"
+                    <textarea id="resume" name="resume" required rows="3"
                         class="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                         placeholder="Description courte et punchy..."></textarea>
                 </div>
@@ -147,61 +147,6 @@
                         placeholder="Rédigez votre article ici... (Markdown supporté)"></textarea>
                     <p class="mt-2 text-sm text-gray-500">Support Markdown : **gras**, *italique*, [liens](url), etc.
                     </p>
-                </div>
-
-                <!-- Liens externes -->
-                <div>
-                    <label class="block text-lg font-semibold text-gray-900 mb-3">
-                        🔗 Liens externes
-                    </label>
-                    <div class="space-y-4">
-                        <div class="flex space-x-4">
-                            <div class="flex-1">
-                                <label for="link1_text" class="block text-sm font-medium text-gray-700 mb-1">
-                                    Texte du lien 1
-                                </label>
-                                <input type="text" id="link1_text" name="links[0][text]"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                    placeholder="Ex: Documentation officielle">
-                            </div>
-                            <div class="flex-1">
-                                <label for="link1_url" class="block text-sm font-medium text-gray-700 mb-1">
-                                    URL du lien 1
-                                </label>
-                                <input type="url" id="link1_url" name="links[0][url]"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                    placeholder="https://...">
-                            </div>
-                        </div>
-                        <div class="flex space-x-4">
-                            <div class="flex-1">
-                                <label for="link2_text" class="block text-sm font-medium text-gray-700 mb-1">
-                                    Texte du lien 2
-                                </label>
-                                <input type="text" id="link2_text" name="links[1][text]"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                    placeholder="Ex: Repository GitHub">
-                            </div>
-                            <div class="flex-1">
-                                <label for="link2_url" class="block text-sm font-medium text-gray-700 mb-1">
-                                    URL du lien 2
-                                </label>
-                                <input type="url" id="link2_url" name="links[1][url]"
-                                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                                    placeholder="https://...">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tags -->
-                <div>
-                    <label for="tags" class="block text-lg font-semibold text-gray-900 mb-3">
-                        🏷️ Tags
-                    </label>
-                    <input type="text" id="tags" name="tags"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
-                        placeholder="tech, ia, javascript, web (séparés par des virgules)">
                 </div>
 
                 <!-- Boutons d'action -->

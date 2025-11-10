@@ -49,7 +49,8 @@ export default class AdminController {
     await auth.use('web').logout()
     return response.redirect('/')
   }
-  public async createArticle({ view }: HttpContext) {
-    return view.render('pages/admin/create-article')
+  public async pageArticle({ view, auth }: HttpContext) {
+    const user = auth.use('web').user
+    return view.render('pages/admin/create-article', { user })
   }
 }

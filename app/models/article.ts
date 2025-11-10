@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
+import Media from './media.js'
+import * as relations from '@adonisjs/lucid/types/relations'
 
 export default class Article extends BaseModel {
   @column({ isPrimary: true })
@@ -18,6 +20,9 @@ export default class Article extends BaseModel {
   declare resume: string | null
 
   @column()
+  declare category: string
+
+  @column()
   declare like_count: string
 
   @column()
@@ -28,4 +33,9 @@ export default class Article extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @hasMany(() => Media, {
+    foreignKey: 'articleId',
+  })
+  declare media: relations.HasMany<typeof Media>
 }

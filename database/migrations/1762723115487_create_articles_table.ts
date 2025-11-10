@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.string('content').notNullable()
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE')
       table.string('resume')
+      table.string('category')
       table.string('like_count').notNullable().defaultTo(0)
       table.string('comment_count').notNullable().defaultTo(0)
       table.timestamp('created_at')
