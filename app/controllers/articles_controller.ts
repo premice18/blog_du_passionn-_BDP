@@ -43,4 +43,23 @@ export default class ArticlesController {
     }
     return response.redirect().toRoute('dashboard')
   }
+  public async deleteArticle({ params, response }: HttpContext) {
+    const id = params.id
+    await Article.query().where('id', id).delete()
+    return response.redirect().back()
+  }
+
+  public async editArticle({ params, view, auth }: HttpContext) {
+    const user = auth.use('web').user
+    const id = params.id
+    const article = await Article.query().where('id', id).preload('medias').firstOrFail()
+    return view.render('pages/admin/edit-article', { article, user })
+  }
+
+  public async showArticle({ params, view, auth }: HttpContext) {
+    const user = auth.use('web').user
+    const id = params.id
+    const article = await Article.query().where('id', id).preload('medias').firstOrFail()
+    return view.render('pages/admin/show-article', { article, user })
+  }
 }

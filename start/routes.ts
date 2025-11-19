@@ -16,9 +16,19 @@ router
   .as('dashboard')
   .use(middleware.auth())
 router.post('/admin/logout', [adminController, 'logout']).use(middleware.auth())
+
+// Gestion des articles
+
 router
   .get('/admin/articles/create', [adminController, 'pageArticle'])
   .as('createArticle')
   .use(middleware.auth()) // page pour creer un article
 
-router.post('/admin/create/articles', [articlesController, 'createArticle']).use(middleware.auth())
+router.post('/admin/create/articles', [articlesController, 'createArticle']).use(middleware.auth()) // Creer un article
+router
+  .post('/admin/articles/:id', [articlesController, 'deleteArticle'])
+  .as('deleteArticle')
+  .use(middleware.auth()) // supprimer un article
+
+router.get('/admin/articles/:id/edit', [articlesController, 'editArticle']).use(middleware.auth()) // modifier l'article
+router.get('admin/articles/:id', [articlesController, 'showArticle']).use(middleware.auth())
