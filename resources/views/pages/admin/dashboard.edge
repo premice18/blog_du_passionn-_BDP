@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Articles - BDP Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'electric-blue': '#00A2FF',
+                        'electric-blue-dark': '#0088D1',
+                        'electric-blue-light': '#4DC1FF',
+                        'passion-orange': '#FF6B35',
+                        'passion-orange-dark': '#E05A2B',
+                        'passion-orange-light': '#FF8C5A',
+                        'text-primary': '#1A1A1A',
+                        'text-secondary': '#666666',
+                        'text-tertiary': '#999999',
+                        'bg-light': '#F5F5F5',
+                        'border-light': '#E5E5E5',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen font-body">
+    <!-- Header Admin -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
+            <div class="flex items-center space-x-4">
+                <a href="/admin/dashboard" class="flex items-center space-x-2 no-underline">
+                    <div
+                        class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                        BDP</div>
+                    <span class="font-bold text-gray-900">Admin BDP</span>
+                </a>
+                <span class="text-gray-400">|</span>
+                <h1 class="text-xl font-semibold text-gray-900">Gestion des Articles</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="text-sm text-gray-600">{{ user.fullName }}</span>
+                <a href="/admin/logout"
+                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">🚪
+                    Déconnexion</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation secondaire -->
+    <div class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-8 py-4">
+                <a href="/admin/dashboard" class="text-blue-600 border-b-2 border-blue-600 font-bold">📊 Dashboard</a>
+                <a href="/admin/articles/create"
+                    class="text-gray-500 hover:text-gray-700 font-medium font-medium transition-colors">📝 Nouvel
+                    Article</a>
+                <a href="/admin/messages" class="text-gray-500 hover:text-gray-700 font-medium transition-colors">📧
+                    Messages</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Header avec stats et bouton -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-900">Tous les articles</h2>
+                <p class="text-gray-600 mt-1">{{ publishedCount }} article(s) publié(s)</p>
+            </div>
+            <a href="/admin/articles/create"
+                class="bg-passion-orange hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg flex items-center space-x-2">
+                <span>✨</span>
+                <span>Nouvel article</span>
+            </a>
+        </div>
+
+        @if(flashMessages.has('notification'))
+        <div
+            class="mb-6 p-4 rounded-lg {{ flashMessages.get('notification').type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+            {{ flashMessages.get('notification').message }}
+        </div>
+        @end
+
+        <!-- Liste des articles -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden mb-12 border border-border-light">
+            @if(articles.length > 0)
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50 text-xs font-bold uppercase tracking-wider text-gray-500">
+                        <tr>
+                            <th class="px-6 py-4 text-left">Article</th>
+                            <th class="px-6 py-4 text-left">Catégorie</th>
+                            <th class="px-6 py-4 text-left">Statut</th>
+                            <th class="px-6 py-4 text-left">Date</th>
+                            <th class="px-6 py-4 text-left">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @each(article in articles)
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center">
+                                    <div
+                                        class="flex-shrink-0 h-10 w-10 bg-gray-100 rounded-lg mr-4 overflow-hidden border border-gray-200">
+                                        @if(article.medias && article.medias.length > 0)
+                                        <img src="/{{ article.medias[0].filePath }}" class="h-full w-full object-cover">
+                                        @else
+                                        <div class="flex items-center justify-center h-full text-xs">📄</div>
+                                        @end
+                                    </div>
+                                    <div class="text-sm font-bold text-gray-900 truncate max-w-xs">{{ article.title }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span
+                                    class="bg-blue-50 text-blue-700 px-2 py-1 rounded text-[10px] font-black uppercase">{{
+                                    article.category }}</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if(article.status === 'published')
+                                <span class="text-green-600 font-bold text-xs">✅ Publié</span>
+                                @else
+                                <span class="text-yellow-600 font-bold text-xs">📝 Brouillon</span>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ article.createdAt.toRelative() }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
+                                <div class="flex space-x-2">
+                                    <a href="/admin/articles/{{ article.id }}/edit"
+                                        class="p-2 hover:bg-gray-100 rounded-lg" title="Modifier">✏️</a>
+                                    <a href="{{ route('article.show', { id: article.id }) }}" target="_blank"
+                                        class="p-2 hover:bg-gray-100 rounded-lg" title="Voir">👁️</a>
+                                    <form action="{{ route('deleteArticle', { id: article.id }) }}" method="POST"
+                                        class="inline">
+                                        {{ csrfField() }}
+                                        <button type="submit" onclick="return confirm('Supprimer ?')"
+                                            class="p-2 hover:bg-red-50 rounded-lg">🗑️</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @endeach
+                    </tbody>
+                </table>
+            </div>
+            @else
+            <div class="text-center py-20">
+                <p class="text-gray-400 font-bold">Aucun article ici...</p>
+            </div>
+            @endif
+        </div>
+
+        <!-- Statistiques rapides -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-border-light">
+                <p class="text-xs font-black uppercase tracking-widest text-gray-400 mb-2">Total</p>
+                <p class="text-3xl font-heading font-black">{{ articles.length }}</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-border-light">
+                <p class="text-xs font-black uppercase tracking-widest text-green-400 mb-2">Publiés</p>
+                <p class="text-3xl font-heading font-black text-green-600">{{ publishedCount }}</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-border-light">
+                <p class="text-xs font-black uppercase tracking-widest text-orange-400 mb-2">Messages</p>
+                <p class="text-3xl font-heading font-black text-orange-600">{{ messagesCount }}</p>
+            </div>
+            <div class="bg-white rounded-2xl shadow-sm p-6 border border-border-light">
+                <p class="text-xs font-black uppercase tracking-widest text-purple-400 mb-2">Vues</p>
+                <p class="text-3xl font-heading font-black text-purple-600">{{ totalViews }}</p>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center">
+            <a href="/"
+                class="text-xs font-black uppercase tracking-widest text-gray-400 hover:text-electric-blue transition-colors">←
+                Retour au site public</a>
+        </div>
+    </main>
+</body>
+
+</html>

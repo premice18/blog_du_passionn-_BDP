@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouvel Article - BDP Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'electric-blue': '#00A2FF',
+                        'electric-blue-dark': '#0088D1',
+                        'electric-blue-light': '#4DC1FF',
+                        'passion-orange': '#FF6B35',
+                        'passion-orange-dark': '#E05A2B',
+                        'passion-orange-light': '#FF8C5A',
+                        'text-primary': '#1A1A1A',
+                        'text-secondary': '#666666',
+                        'text-tertiary': '#999999',
+                        'bg-light': '#F5F5F5',
+                        'border-light': '#E5E5E5',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header Admin -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo et titre -->
+                <div class="flex items-center space-x-4">
+                    <a href="/admin/dashboard" class="flex items-center space-x-2 no-underline">
+                        <div
+                            class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                            BDP
+                        </div>
+                        <span class="font-bold text-gray-900">Admin BDP</span>
+                    </a>
+                    <span class="text-gray-400">|</span>
+                    <h1 class="text-xl font-semibold text-gray-900">Créer un nouvel article</h1>
+                </div>
+
+                <!-- Menu utilisateur -->
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600">{{ user.fullName }}</span>
+
+                    <a href="/admin/logout"
+                        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        🚪 Déconnexion
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <form action="/admin/create/articles" method="POST" enctype="multipart/form-data" class="space-y-8">
+                {{ csrfField() }}
+
+                <!-- Titre -->
+                <div>
+                    <label for="title" class="block text-lg font-semibold text-gray-900 mb-3">
+                        📝 Titre de l'article *
+                    </label>
+                    <input type="text" id="title" name="title" required
+                        class="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                        placeholder="Titre accrocheur et fun...">
+                </div>
+
+                <!-- Sous-titre -->
+                <div>
+                    <label for="subtitle" class="block text-lg font-semibold text-gray-900 mb-3">
+                        💬 Petit résumé *
+                    </label>
+                    <textarea id="resume" name="resume" required rows="3"
+                        class="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                        placeholder="Description courte et punchy..."></textarea>
+                </div>
+
+                <!-- Image principale -->
+                <div>
+                    <label for="image" class="block text-lg font-semibold text-gray-900 mb-3">
+                        🖼️ Image principale
+                    </label>
+                    <input type="file" id="image" name="image" accept="image/*"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
+                    <p class="mt-2 text-sm text-gray-500">Format recommandé : 1200x630px (ratio 1.91:1)</p>
+                </div>
+
+                <!-- Aperçu image -->
+                <div id="imagePreview" class="hidden">
+                    <label class="block text-lg font-semibold text-gray-900 mb-3">
+                        👀 Aperçu de l'image
+                    </label>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                        <img id="preview" class="max-w-full max-h-64 mx-auto rounded-lg" src="" alt="Aperçu">
+                    </div>
+                </div>
+
+                <!-- Catégorie -->
+                <div>
+                    <label for="category" class="block text-lg font-semibold text-gray-900 mb-3">
+                        🏷️ Catégorie *
+                    </label>
+                    <select id="category" name="category" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
+                        <option value="">Choisir une catégorie</option>
+                        <option value="ia">🤖 IA & Machine Learning</option>
+                        <option value="web">💻 Développement Web</option>
+                        <option value="mobile">📱 Mobile</option>
+                        <option value="outils">🛠️ Outils & DevOps</option>
+                        <option value="startups">🚀 Startups & Entrepreneurship</option>
+                        <option value="tutoriels">🎯 Tutoriels</option>
+                        <option value="actu">📰 Actualité Tech</option>
+                    </select>
+                </div>
+
+                <!-- Contenu -->
+                <div>
+                    <label for="content" class="block text-lg font-semibold text-gray-900 mb-3">
+                        📄 Contenu de l'article *
+                    </label>
+                    <textarea id="content" name="content" required rows="15"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 font-mono text-sm"
+                        placeholder="Rédigez votre article ici... (Markdown supporté)"></textarea>
+
+                    <div class="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                        <p class="text-sm font-medium text-blue-800 mb-2">🎯 Aide Markdown rapide :</p>
+                        <div class="grid grid-cols-2 gap-1 text-xs text-blue-700">
+                            <div><code># Titre</code></div>
+                            <div><code>**gras**</code></div>
+                            <div><code>## Sous-titre</code></div>
+                            <div><code>*italique*</code></div>
+                            <div><code>- liste</code></div>
+                            <div><code>[lien](url)</code></div>
+                            <div><code>```code```</code></div>
+                            <div><code>> citation</code></div>
+                        </div>
+                    </div>
+                </div>
+
+                @if(flashMessages.has('notification'))
+                <div
+                    class="mb-6 p-4 rounded-lg {{ flashMessages.get('notification').type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                    {{ flashMessages.get('notification').message }}
+                </div>
+                @end
+
+                <input type="hidden" name="status" id="article_status" value="published">
+
+                <!-- Boutons d'action -->
+                <div class="flex space-x-4 pt-6 border-t border-gray-200">
+                    <button type="submit" onclick="document.getElementById('article_status').value='published'"
+                        class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg flex items-center justify-center space-x-2 text-lg">
+                        <span>🚀</span>
+                        <span>Publier l'article</span>
+                    </button>
+
+                    <button type="submit" onclick="document.getElementById('article_status').value='draft'"
+                        class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg flex items-center justify-center space-x-2 text-lg">
+                        <span>💾</span>
+                        <span>Sauvegarder en brouillon</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // Preview d'image
+        document.getElementById('image').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('imagePreview').classList.remove('hidden');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Auto-resize textarea
+        document.getElementById('content').addEventListener('input', function () {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    </script>
+</body>
+
+</html>
