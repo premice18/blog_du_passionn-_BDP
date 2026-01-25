@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier {{ article.title }} - BDP Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'electric-blue': '#00A2FF',
+                        'electric-blue-dark': '#0088D1',
+                        'electric-blue-light': '#4DC1FF',
+                        'passion-orange': '#FF6B35',
+                        'passion-orange-dark': '#E05A2B',
+                        'passion-orange-light': '#FF8C5A',
+                        'text-primary': '#1A1A1A',
+                        'text-secondary': '#666666',
+                        'text-tertiary': '#999999',
+                        'bg-light': '#F5F5F5',
+                        'border-light': '#E5E5E5',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header Admin -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo et titre -->
+                <div class="flex items-center space-x-4">
+                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 no-underline">
+                        <div
+                            class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                            BDP
+                        </div>
+                        <span class="font-bold text-gray-900">Admin BDP</span>
+                    </a>
+                    <span class="text-gray-400">|</span>
+                    <h1 class="text-xl font-semibold text-gray-900">Modifier l'article</h1>
+                </div>
+
+                <!-- Menu utilisateur -->
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600">{{ user.fullName }}</span>
+                    <a href="/admin/logout"
+                        class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                        🚪 Déconnexion
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation secondaire -->
+    <div class="bg-white border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex space-x-8 py-4">
+                <a href="{{ route('dashboard') }}" class="text-blue-600 border-b-2 border-blue-600 font-medium">
+                    📊 Dashboard
+                </a>
+                <a href="{{ route('createArticle') }}"
+                    class="text-gray-500 hover:text-gray-700 font-medium transition-colors">
+                    📝 Nouvel Article
+                </a>
+                <a href="{{ route('admin.messages') }}"
+                    class="text-gray-500 hover:text-gray-700 font-medium transition-colors">
+                    📧 Messages
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <!-- Breadcrumbs -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <nav class="flex items-center space-x-2 text-sm text-gray-500 mb-4">
+                    <a href="{{ route('dashboard') }}" class="hover:text-gray-700">Articles</a>
+                    <span>/</span>
+                    <a href="{{ route('showArticle', { id: article.id }) }}" class="hover:text-gray-700">{{
+                        article.title }}</a>
+                    <span>/</span>
+                    <span class="text-gray-900">Modifier</span>
+                </nav>
+                <h1 class="text-3xl font-bold text-gray-900">Modifier l'article</h1>
+            </div>
+            <div class="flex space-x-3">
+                <a href="{{ route('showArticle', { id: article.id }) }}"
+                    class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg transition-all flex items-center space-x-2">
+                    <span>←</span>
+                    <span>Retour</span>
+                </a>
+                <a href="{{ route('article.show', { id: article.id }) }}" target="_blank"
+                    class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors flex items-center space-x-2">
+                    <span>👁️</span>
+                    <span>Voir sur le site</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Formulaire Principal -->
+            <div class="lg:col-span-2">
+                <form id="editForm" action="{{ route('updateArticle', { id: article.id }) }}" method="POST"
+                    enctype="multipart/form-data" class="space-y-6">
+                    {{ csrfField() }}
+
+                    <!-- Titre -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+                        <label for="title" class="block text-sm font-bold text-gray-700 mb-2">Titre de l'article
+                            *</label>
+                        <input type="text" id="title" name="title" value="{{ article.title }}" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg font-medium">
+                    </div>
+
+                    <!-- Résumé -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+                        <label for="resume" class="block text-sm font-bold text-gray-700 mb-2">Résumé *</label>
+                        <textarea id="resume" name="resume" rows="4" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none">{{ article.resume }}</textarea>
+                    </div>
+
+                    <!-- Contenu -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+                        <label for="content" class="block text-sm font-bold text-gray-700 mb-2">Contenu (Markdown)
+                            *</label>
+                        <textarea id="content" name="content" rows="15" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-mono text-sm">{{ article.content }}</textarea>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Colonne Latérale -->
+            <div class="space-y-6">
+                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+                    <h3 class="font-bold text-gray-900 mb-4">Paramètres</h3>
+
+                    <div class="space-y-4">
+                        <!-- Statut -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Statut</label>
+                            <select name="status" form="editForm"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="draft" {{ article.status==='draft' ? 'selected' : '' }}>📝 Brouillon
+                                </option>
+                                <option value="published" {{ article.status==='published' ? 'selected' : '' }}>✅ Publié
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Catégorie -->
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">Catégorie</label>
+                            <select name="category" form="editForm"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                                <option value="ia" {{ article.category==='ia' ? 'selected' : '' }}>🤖 IA & ML</option>
+                                <option value="web" {{ article.category==='web' ? 'selected' : '' }}>💻 Développement
+                                    Web</option>
+                                <option value="mobile" {{ article.category==='mobile' ? 'selected' : '' }}>📱 Mobile
+                                </option>
+                                <option value="outils" {{ article.category==='outils' ? 'selected' : '' }}>🛠️ Outils
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image -->
+                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
+                    <h3 class="font-bold text-gray-900 mb-4">Image</h3>
+                    @if(article.medias && article.medias.length > 0)
+                    <div class="mb-4">
+                        <img src="/{{ article.medias[0].filePath }}" class="w-full h-32 object-cover rounded-lg">
+                    </div>
+                    @endif
+                    <input type="file" name="image" form="editForm" class="w-full text-sm">
+                </div>
+
+                <!-- Actions -->
+                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-100 space-y-3">
+                    <button type="submit" form="editForm"
+                        class="w-full bg-passion-orange hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-lg shadow transition-all transform hover:-translate-y-1">
+                        💾 Enregistrer les modifications
+                    </button>
+
+                    <a href="{{ route('dashboard') }}"
+                        class="block w-full bg-gray-100 hover:bg-gray-200 text-gray-700 text-center font-bold py-3 px-4 rounded-lg transition-all">
+                        Annuler
+                    </a>
+
+                    <form action="{{ route('deleteArticle', { id: article.id }) }}" method="POST"
+                        onsubmit="return confirm('Supprimer cet article ?')">
+                        {{ csrfField() }}
+                        <button type="submit"
+                            class="w-full bg-red-100 hover:bg-red-200 text-red-600 font-bold py-3 px-4 rounded-lg transition-all">
+                            🗑️ Supprimer l'article
+                        </button>
+                    </form>
+                </div>
+
+                @if(flashMessages.has('notification'))
+                <div
+                    class="p-4 rounded-lg {{ flashMessages.get('notification').type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                    {{ flashMessages.get('notification').message }}
+                </div>
+                @endif
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

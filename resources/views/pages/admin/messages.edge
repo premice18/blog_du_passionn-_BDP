@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - BDP Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'electric-blue': '#00A2FF',
+                        'electric-blue-dark': '#0088D1',
+                        'electric-blue-light': '#4DC1FF',
+                        'passion-orange': '#FF6B35',
+                        'passion-orange-dark': '#E05A2B',
+                        'passion-orange-light': '#FF8C5A',
+                        'text-primary': '#1A1A1A',
+                        'text-secondary': '#666666',
+                        'text-tertiary': '#999999',
+                        'bg-light': '#F5F5F5',
+                        'border-light': '#E5E5E5',
+                    },
+                    fontFamily: {
+                        'heading': ['Montserrat', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50 min-h-screen font-body">
+    <!-- Header Admin -->
+    <header class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
+            <div class="flex items-center space-x-4">
+                <a href="/admin/dashboard" class="flex items-center space-x-2 no-underline">
+                    <div
+                        class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                        BDP</div>
+                    <span class="font-bold text-gray-900">Admin BDP</span>
+                </a>
+                <span class="text-gray-400">|</span>
+                <h1 class="text-xl font-semibold text-gray-900">Messages reçus</h1>
+            </div>
+            <a href="/admin/logout"
+                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">Déconnexion</a>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        @if(flashMessages.has('notification'))
+        <div class="mb-6 p-4 rounded-lg bg-green-100 text-green-800 border border-green-200">
+            {{ flashMessages.get('notification').message }}
+        </div>
+        @endif
+
+        @if(messages.length > 0)
+        <div class="bg-white rounded-2xl shadow-sm border border-border-light overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                Date</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                Expéditeur</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                Sujet</th>
+                            <th class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @each(message in messages)
+                        <tr class="hover:bg-gray-50/50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ message.createdAt.toFormat('dd/MM HH:mm') }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm font-bold text-gray-900">{{ message.fullName }}</div>
+                                <div class="text-xs text-gray-400">{{ message.email }}</div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm text-gray-900 font-bold mb-1">{{ message.subject }}</div>
+                                <div class="text-xs text-gray-600 bg-gray-50 p-2 rounded border border-gray-100 italic">
+                                    {{ message.message }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <form action="{{ route('admin.messages.delete', { id: message.id }) }}?_method=DELETE"
+                                    method="POST" class="inline">
+                                    {{ csrfField() }}
+                                    <button type="submit" class="text-red-600 hover:text-red-900"
+                                        onclick="return confirm('Supprimer ce message ?')">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @else
+        <div class="text-center py-20 bg-white rounded-2xl border-2 border-dashed border-gray-200">
+            <div class="text-5xl mb-4">📧</div>
+            <h3 class="text-lg font-medium text-gray-900">Aucun message pour le moment</h3>
+            <p class="text-gray-500">Ils apparaîtront ici quand quelqu'un remplira le formulaire de contact.</p>
+        </div>
+        @endif
+    </main>
+</body>
+
+</html>

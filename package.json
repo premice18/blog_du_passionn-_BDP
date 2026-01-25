@@ -58,9 +58,11 @@
     "@adonisjs/shield": "^8.2.0",
     "@adonisjs/static": "^1.1.1",
     "@adonisjs/vite": "^4.0.0",
+    "@types/marked": "^5.0.2",
     "@vinejs/vine": "^3.0.1",
     "edge.js": "^6.2.1",
     "luxon": "^3.7.2",
+    "marked": "^17.0.1",
     "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2"
   },

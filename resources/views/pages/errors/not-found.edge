@@ -1,0 +1,28 @@
+@layout.app({ title: "Page non trouvée - BDP" })
+
+@slot('main')
+<div class="min-h-[70vh] flex flex-col items-center justify-center px-4 text-center">
+    <div class="relative mb-8">
+        <h1 class="text-9xl font-heading font-bold text-gray-100 select-none">404</h1>
+        <div class="absolute inset-0 flex items-center justify-center">
+            <span class="text-6xl animate-bounce">🤔</span>
+        </div>
+    </div>
+    <h2 class="text-3xl font-heading font-bold text-text-primary mb-4">Oups ! La page s'est envolée...</h2>
+    <p class="text-text-secondary mb-8 max-w-md mx-auto">
+        Désolé, la page que vous recherchez semble introuvable ou a été déplacée.
+        Il reste encore plein de choses passionnantes à découvrir !
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4">
+        <a href="{{ route('home') }}"
+            class="bg-electric-blue hover:bg-electric-blue-dark text-white px-8 py-3 rounded-xl font-bold transition-all transform hover:-translate-y-1 hover:shadow-xl">
+            Retour à l'accueil
+        </a>
+        <a href="{{ route('contact') }}"
+            class="bg-white border-2 border-border-light hover:border-electric-blue text-text-secondary hover:text-electric-blue px-8 py-3 rounded-xl font-bold transition-all">
+            Nous contacter
+        </a>
+    </div>
+</div>
+@endslot
+@end
