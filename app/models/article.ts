@@ -25,10 +25,16 @@ export default class Article extends BaseModel {
   declare category: string
 
   @column()
-  declare like_count: string
+  declare status: 'draft' | 'published'
 
   @column()
-  declare comment_count: string
+  declare views: number
+
+  @column()
+  declare like_count: number
+
+  @column()
+  declare comment_count: number
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

@@ -1,5 +1,6 @@
 import Article from '#models/article'
 import User from '#models/user'
+import Message from '#models/message'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class AdminController {
@@ -43,7 +44,20 @@ export default class AdminController {
   public async dashboard({ view, auth }: HttpContext) {
     const user = auth.use('web').user
     const articles = await Article.query().preload('medias').orderBy('created_at', 'desc')
-    return view.render('pages/admin/dashboard', { user, articles })
+    const messagesCount = await Message.query().from('messages').count('* as total').first()
+
+    const publishedCount = articles.filter((a) => a.status === 'published').length
+    const draftCount = articles.filter((a) => a.status === 'draft').length
+    const totalViews = articles.reduce((acc, a) => acc + (a.views || 0), 0)
+
+    return view.render('pages/admin/dashboard', {
+      user,
+      articles,
+      publishedCount,
+      draftCount,
+      totalViews,
+      messagesCount: messagesCount?.$extras.total || 0,
+    })
   }
   public async logout({ auth, response }: HttpContext) {
     await auth.use('web').logout()

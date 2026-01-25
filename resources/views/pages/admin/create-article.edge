@@ -161,15 +161,24 @@
                     </div>
                 </div>
 
+                @if(flashMessages.has('notification'))
+                <div
+                    class="mb-6 p-4 rounded-lg {{ flashMessages.get('notification').type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                    {{ flashMessages.get('notification').message }}
+                </div>
+                @end
+
+                <input type="hidden" name="status" id="article_status" value="published">
+
                 <!-- Boutons d'action -->
                 <div class="flex space-x-4 pt-6 border-t border-gray-200">
-                    <button type="submit"
+                    <button type="submit" onclick="document.getElementById('article_status').value='published'"
                         class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg flex items-center justify-center space-x-2 text-lg">
                         <span>🚀</span>
                         <span>Publier l'article</span>
                     </button>
 
-                    <button type="button"
+                    <button type="submit" onclick="document.getElementById('article_status').value='draft'"
                         class="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 transform hover:-translate-y-1 hover:shadow-lg flex items-center justify-center space-x-2 text-lg">
                         <span>💾</span>
                         <span>Sauvegarder en brouillon</span>
