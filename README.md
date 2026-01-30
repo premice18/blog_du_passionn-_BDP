@@ -1,4 +1,4 @@
-# 🚀 Blog du Passionné (BDP) — L'Excellence Tech 2026
+# Blog du Passionné (BDP) — L'Excellence Tech 2026
 
 ![Tech](https://img.shields.io/badge/Stack-AdonisJS%206-blueviolet?style=for-the-badge)
 ![UI](https://img.shields.io/badge/UI-Tailwind%20Premium-00A2FF?style=for-the-badge)
@@ -8,23 +8,23 @@ Bienvenue sur le dépôt du **Blog du Passionné (BDP)**, un média tech de nouv
 
 ---
 
-## ✨ Caractéristiques (V1.0)
+## Caractéristiques (V1.0)
 
-### 🎨 Design & Expérience Utilisateur
+### Design & Expérience Utilisateur
 
 - **UI Premium 2026** : Design moderne avec effets de glassmorphism, flous artistiques et typographies massives.
 - **Dark Mode Natif** : Basculez entre un mode clair éclatant et un mode sombre profond.
 - **Ultra-Responsive** : Menu mobile type "overlay" sophistiqué et navigation fluide sur tous les terminaux.
 - **Transitions Micro-animations** : Expérience vivante avec des effets de fade-in et de montée au scroll.
 
-### 📝 Gestion du Contenu (Admin)
+### Gestion du Contenu (Admin)
 
 - **Dashboard Puissant** : Statistiques et vue d'ensemble de l'activité.
 - **CRUD Articles** : Création, édition et suppression simplifiées.
 - **Markdown Support** : Rendu d'articles complexes (code, tableaux, citations) via Markdown.
 - **Gestion Média** : Upload d'images de couverture optimisé.
 
-### 🔍 Fonctionnalités Utilisateurs
+### Fonctionnalités Utilisateurs
 
 - **Recherche Instantanée** : Filtrez les articles par mots-clés.
 - **Navigation par Catégories** : IA, Web, Mobile, Outils.
@@ -33,7 +33,7 @@ Bienvenue sur le dépôt du **Blog du Passionné (BDP)**, un média tech de nouv
 
 ---
 
-## 🛠 Stack Technique
+## Stack Technique
 
 - **Backend** : [AdonisJS 6](https://docs.adonisjs.com/guides/whats-new) (TypeScript)
 - **Frontend** : EdgeJS + [Tailwind CSS](https://tailwindcss.com/)
@@ -42,7 +42,7 @@ Bienvenue sur le dépôt du **Blog du Passionné (BDP)**, un média tech de nouv
 
 ---
 
-## 🚀 Installation & Lancement
+## Installation & Lancement
 
 ### 1. Prérequis
 
@@ -88,7 +88,7 @@ Le blog sera accessible sur [http://localhost:3333](http://localhost:3333)
 
 ---
 
-## 📂 Structure du Projet
+## Structure du Projet
 
 ```text
 ├── app/
@@ -106,7 +106,7 @@ Le blog sera accessible sur [http://localhost:3333](http://localhost:3333)
 
 ---
 
-## 👨‍💻 Auteur
+## Auteur
 
 **Blog du Passionné (BDP)** - _L'innovation à portée de main._
 
