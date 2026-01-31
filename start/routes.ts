@@ -52,6 +52,8 @@ router
   .as('showArticle')
   .use(middleware.auth())
 
+router.get('/article/:id/like', [articlesController, 'likeArticle']).as('likeArticle')
+
 // Admin Messages
 router
   .get('/admin/messages', [messagesController, 'adminIndex'])

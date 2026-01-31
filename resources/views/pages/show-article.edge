@@ -52,8 +52,8 @@
                     <div>
                         <p class="text-text-primary dark:text-white font-black text-lg leading-none tracking-tight">{{
                             article.user.fullName }}</p>
-                        <p class="text-passion-orange font-black text-[10px] uppercase tracking-[0.25em] mt-1.5">Expert
-                            Innovation</p>
+                        <p class="text-passion-orange font-black text-[10px] uppercase tracking-[0.25em] mt-1.5">Auteur
+                        </p>
                     </div>
                     <div class="hidden md:block h-8 w-px bg-border-light dark:bg-dark-border mx-4"></div>
                     <p class="hidden md:block text-text-tertiary text-xs font-black uppercase tracking-widest">
@@ -143,14 +143,16 @@
                                 article.views }}</span>
                         </div>
                         <div class="flex items-center space-x-3">
-                            <svg class="w-8 h-8 text-passion-orange animate-pulse" fill="currentColor"
-                                viewBox="0 0 24 24">
-                                <path
-                                    d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z">
-                                </path>
-                            </svg>
+                            <a href="/article/{{ article.id }}/like"><svg
+                                    class="w-8 h-8 text-passion-orange animate-pulse" fill="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z">
+                                    </path>
+                                </svg></a>
                             <span class="font-black text-2xl text-text-primary dark:text-white tracking-tighter">{{
-                                article.like_count }}</span>
+                                article.like_count }}
+                            </span>
                         </div>
                     </div>
                 </div>
