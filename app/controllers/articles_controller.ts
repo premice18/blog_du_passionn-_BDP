@@ -212,4 +212,12 @@ export default class ArticlesController {
 
     return view.render('pages/show-article', { article, articles: relatedArticles })
   }
+  public async likeArticle({ params, response }: HttpContext) {
+    const article = await Article.findOrFail(params.id)
+
+    article.like_count += 1
+    await article.save()
+
+    return response.redirect().back()
+  }
 }
