@@ -212,11 +212,22 @@ export default class ArticlesController {
 
     return view.render('pages/show-article', { article, articles: relatedArticles })
   }
-  public async likeArticle({ params, response }: HttpContext) {
+  public async likeArticle({ params, response, session }: HttpContext) {
     const article = await Article.findOrFail(params.id)
+    const sessionKey = `liked_article_${article.title}_${article.id}`
+
+    // Vérifier dans la session
+    const hasLiked = await session.get(sessionKey)
+
+    if (hasLiked) {
+      return response.redirect().back()
+    }
 
     article.like_count += 1
     await article.save()
+
+    // Stocker dans la session
+    await session.put(sessionKey, true)
 
     return response.redirect().back()
   }
