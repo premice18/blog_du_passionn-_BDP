@@ -7,15 +7,15 @@ const dbConfig = defineConfig({
     postgres: {
       client: 'pg',
       connection: {
-        host: env.get('DB_HOST'),
-        port: env.get('DB_PORT'),
-        user: env.get('DB_USER'),
-        password: env.get('DB_PASSWORD'),
-        database: env.get('DB_DATABASE'),
+        connectionString: env.get('DATABASE_URL'),
+        ssl: {
+          rejectUnauthorized: false, // Autorise les certificats auto-signés d'Aiven
+        },
       },
-      migrations: {
-        naturalSort: true,
-        paths: ['database/migrations'],
+      pool: {
+        min: 0, // Libère les connexions dès qu'elles sont inutilisées
+        max: 2, // Limite pour ne pas saturer les plans gratuits
+        acquireTimeoutMillis: 90000, // Laisse 90s pour établir la connexion
       },
     },
   },
