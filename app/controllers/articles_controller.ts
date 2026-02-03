@@ -208,7 +208,7 @@ export default class ArticlesController {
     return view.render('pages/search', { articles, q, pages })
   }
 
-  public async showPublicArticle({ params, view }: HttpContext) {
+  public async showPublicArticle({ params, view, session }: HttpContext) {
     const article = await Article.query()
       .where('id', params.id)
       .where('status', 'published')
@@ -217,8 +217,28 @@ export default class ArticlesController {
       .firstOrFail()
 
     // Incrémenter les vues
-    article.views += 1
-    await article.save()
+    const now = Date.now()
+    const ttlMs = 7 * 24 * 60 * 60 * 1000
+
+    const viewedArticlesRaw = await session.get('viewed_articles')
+    const viewedArticles: Record<string, number> =
+      viewedArticlesRaw && typeof viewedArticlesRaw === 'object' ? viewedArticlesRaw : {}
+
+    for (const [articleId, viewedAt] of Object.entries(viewedArticles)) {
+      if (typeof viewedAt !== 'number' || now - viewedAt > ttlMs) {
+        delete viewedArticles[articleId]
+      }
+    }
+
+    const sessionKey = String(article.id)
+    const hasViewedRecently = typeof viewedArticles[sessionKey] === 'number'
+
+    if (!hasViewedRecently) {
+      article.views += 1
+      await article.save()
+      viewedArticles[sessionKey] = now
+      await session.put('viewed_articles', viewedArticles)
+    }
 
     // Chercher des articles reliés (même catégorie)
     const relatedArticles = await Article.query()
