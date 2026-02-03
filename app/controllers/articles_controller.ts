@@ -2,7 +2,7 @@ import Article from '#models/article'
 import Media from '#models/media'
 import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
-import app from '@adonisjs/core/services/app'
+import { readFile } from 'node:fs/promises'
 
 export default class ArticlesController {
   public async createArticle({ request, response, auth, session }: HttpContext) {
@@ -29,14 +29,23 @@ export default class ArticlesController {
     if (media1) {
       const fileName = `${cuid()}.${media1.extname}`
       const filePath = `uploads/${fileName}`
-      await media1.move(app.publicPath('uploads'), {
-        name: fileName,
-      })
+
+      const tmpPath = (media1 as any).tmpPath as string | undefined
+      if (!tmpPath) {
+        throw new Error('Impossible de lire le fichier uploadé (tmpPath manquant)')
+      }
+
+      const fileBlob = await readFile(tmpPath)
+      const mimeType = (media1 as any).type as string | undefined
+      const fileSize = (media1 as any).size as number | undefined
 
       await Media.create({
         filePath,
         fileName,
         fileType: media1.extname!,
+        fileBlob,
+        mimeType: mimeType || null,
+        fileSize: typeof fileSize === 'number' ? fileSize : null,
         articleId: article.id,
       })
     }
@@ -116,14 +125,23 @@ export default class ArticlesController {
 
       const fileName = `${cuid()}.${media1.extname}`
       const filePath = `uploads/${fileName}`
-      await media1.move(app.publicPath('uploads'), {
-        name: fileName,
-      })
+
+      const tmpPath = (media1 as any).tmpPath as string | undefined
+      if (!tmpPath) {
+        throw new Error('Impossible de lire le fichier uploadé (tmpPath manquant)')
+      }
+
+      const fileBlob = await readFile(tmpPath)
+      const mimeType = (media1 as any).type as string | undefined
+      const fileSize = (media1 as any).size as number | undefined
 
       await Media.create({
         filePath,
         fileName,
         fileType: media1.extname!,
+        fileBlob,
+        mimeType: mimeType || null,
+        fileSize: typeof fileSize === 'number' ? fileSize : null,
         articleId: article.id,
       })
     }

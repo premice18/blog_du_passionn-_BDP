@@ -3,10 +3,13 @@ import { middleware } from './kernel.js'
 const adminController = () => import('#controllers/admin_controller')
 const articlesController = () => import('#controllers/articles_controller')
 const messagesController = () => import('#controllers/messages_controller')
+const uploadsController = () => import('#controllers/uploads_controller')
 
 router.get('/', [articlesController, 'home']).as('home')
 router.get('/search', [articlesController, 'search']).as('search')
 router.get('/article/:id', [articlesController, 'showPublicArticle']).as('article.show')
+
+router.get('/uploads/:fileName', [uploadsController, 'show'])
 
 router.get('/contact', [messagesController, 'index']).as('contact')
 router.post('/contact', [messagesController, 'store']).as('contact.store')
