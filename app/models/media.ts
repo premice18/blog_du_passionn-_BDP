@@ -19,6 +19,15 @@ export default class Media extends BaseModel {
   @column()
   declare fileType: string
 
+  @column({ columnName: 'file_blob' })
+  declare fileBlob: Buffer | null
+
+  @column({ columnName: 'mime_type' })
+  declare mimeType: string | null
+
+  @column({ columnName: 'file_size' })
+  declare fileSize: number | null
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
